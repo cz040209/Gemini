@@ -1,0 +1,9 @@
+streamlit
+torch
+transformers
+google-api-python-client
+pytorch-lightning
+pytesseract
+pdfplumber
+speechrecognition
+Pillow
