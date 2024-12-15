@@ -1,9 +1,9 @@
 streamlit
 torch
 transformers
+pdfplumber
 google-api-python-client
 pytorch-lightning
 pytesseract
-pdfplumber
 speechrecognition
 Pillow
