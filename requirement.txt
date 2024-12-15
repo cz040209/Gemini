@@ -1,7 +1,0 @@
-streamlit
-pdfplumber
-transformers
-torch
-speechrecognition
-pillow
-pytesseract
