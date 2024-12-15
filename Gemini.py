@@ -223,18 +223,7 @@ elif option == "Upload Image":
                 with st.spinner("Generating answer..."):
                     answer = summarize_text(image_text)  # Use summarizeTo incorporate conversational AI and Q&A features using the Gemini model into your existing Streamlit app, we need to enhance the logic to handle both conversational dialogue and question-answering capabilities. Here's how you can add those functionalities to your application:
 
-### 1. Update to Include Conversational Model and Q&A
-You can use the `google/gemini-1.5` model for both generating responses in a conversation and for answering specific questions. Below are steps and code modifications to incorporate these features:
 
-#### A. Conversation Feature
-- The goal is to maintain the context of the conversation and keep track of the conversation history. You’ll modify the process of receiving text inputs, keeping track of previous interactions, and sending context to the model for response generation.
-
-#### B. Question Answering
-- Use a more structured question-answering approach where users can directly ask questions and get specific answers, without the need for a continuous conversation.
-
-### Code Adjustments
-
-```python
 # Add function for conversational AI (using Gemini model)
 def generate_conversation_response(user_input, history):
     # Prepare the conversation input by joining past history
