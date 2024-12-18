@@ -4,6 +4,8 @@ from azure.ai.inference.models import SystemMessage
 from azure.ai.inference.models import UserMessage
 from azure.core.credentials import AzureKeyCredential
 
+os.environ["GITHUB_TOKEN"] = "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"
+
 # To authenticate with the model you will need to generate a personal access token (PAT) in your GitHub settings. 
 # Create your PAT token by following instructions here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 client = ChatCompletionsClient(
