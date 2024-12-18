@@ -1,11 +1,12 @@
 import openai
 import streamlit as st
 
-# Set up the OpenAI API key using Streamlit secrets
+# Set up the OpenAI API key and base URL using Streamlit secrets
 api_key = st.secrets["SAMBANOVA"]["API_KEY"]
+base_url = "https://api.sambanova.ai/v1"
 
-# Initialize OpenAI client with the API key and base URL
-openai.api_key = api_key
+# Initialize OpenAI client for Sambanova API
+client = openai.OpenAI(api_key=api_key, base_url=base_url)
 
 # Streamlit UI components
 st.title("Meta-Llama Chatbot")
@@ -22,18 +23,16 @@ def get_bot_response(user_input):
 
     try:
         # Request response from the Meta-Llama model via Sambanova API
-        response = openai.ChatCompletion.create(
-            model="Meta-Llama-3.3-70B-Instruct",  # Specify the model
-            messages=st.session_state.conversation_history,  # Send the conversation history
-            temperature=0.7,  # Control randomness of responses
-            max_tokens=150,   # Limit the response length
-            top_p=0.9,        # Control the diversity of responses
-            frequency_penalty=0.0,
-            presence_penalty=0.0
+        response = client.chat.completions.create(
+            model="Meta-Llama-3.3-70B-Instruct",
+            messages=st.session_state.conversation_history,
+            temperature=0.7,
+            max_tokens=150,
+            top_p=0.9
         )
 
         # Extract and return the model's response
-        bot_response = response['choices'][0]['message']['content']
+        bot_response = response.choices[0].message.content
         return bot_response
 
     except Exception as e:
@@ -48,10 +47,8 @@ if user_input:
     # Display the conversation
     st.session_state.conversation_history.append({"role": "assistant", "content": bot_response})
 
-    # Show the conversation history
     for message in st.session_state.conversation_history:
         if message["role"] == "user":
             st.write(f"You: {message['content']}")
-        else:
+        elif message["role"] == "assistant":
             st.write(f"Bot: {message['content']}")
-
