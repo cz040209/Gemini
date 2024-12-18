@@ -1,27 +1,43 @@
-import os
-from azure.ai.inference import ChatCompletionsClient
-from azure.ai.inference.models import SystemMessage
-from azure.ai.inference.models import UserMessage
-from azure.core.credentials import AzureKeyCredential
+import openai
 
-os.environ["GITHUB_TOKEN"] = "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"
+# Set your API key
+api_key = "10931f2d-bd6f-4ef0-adad-975aedc465ec"
+openai.api_key = api_key
 
-# To authenticate with the model you will need to generate a personal access token (PAT) in your GitHub settings. 
-# Create your PAT token by following instructions here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
-client = ChatCompletionsClient(
-    endpoint="https://models.inference.ai.azure.com",
-    credential=AzureKeyCredential(os.environ["GITHUB_TOKEN"]),
-)
+def chatbot():
+    print("Chatbot is ready! Type 'exit' to end the conversation.")
+    
+    # Initialize conversation history
+    conversation_history = [{"role": "system", "content": "You are a helpful assistant."}]
+    
+    while True:
+        # Get user input
+        user_input = input("You: ")
+        
+        # Exit condition
+        if user_input.lower() == "exit":
+            print("Chatbot: Goodbye!")
+            break
+        
+        # Add user message to conversation history
+        conversation_history.append({"role": "user", "content": user_input})
+        
+        # Generate a response using OpenAI API with Meta-Llama 3.3-70B-Instruct model
+        response = openai.ChatCompletion.create(
+            model="Meta-Llama-3.3-70B-Instruct",  # Specify the Llama model here
+            messages=conversation_history,
+            temperature=0.7,  # Controls randomness in responses
+            max_tokens=150,   # Max length of the response
+        )
+        
+        # Get the assistant's response
+        bot_response = response['choices'][0]['message']['content']
+        
+        # Print the assistant's response
+        print(f"Chatbot: {bot_response}")
+        
+        # Add assistant's response to the conversation history
+        conversation_history.append({"role": "assistant", "content": bot_response})
 
-response = client.complete(
-    messages=[
-        SystemMessage(content=""""""),
-        UserMessage(content="What is Data Science?"),
-    ],
-    model="Meta-Llama-3.1-70B-Instruct",
-    temperature=0.8,
-    max_tokens=2048,
-    top_p=0.1
-)
-
-print(response.choices[0].message.content)
+if __name__ == "__main__":
+    chatbot()
