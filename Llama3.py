@@ -1,8 +1,17 @@
+import os
 import openai
 
-# Set your API key
-api_key = "10931f2d-bd6f-4ef0-adad-975aedc465ec"
+# Fetch the API key from the environment variable (for Sambanova)
+api_key = os.environ.get("10931f2d-bd6f-4ef0-adad-975aedc465ec")
+
+# Check if the API key exists, otherwise exit with an error message
+if not api_key:
+    print("Error: API key is not set in the environment.")
+    exit(1)
+
+# Set the OpenAI API key for communication with OpenAI (Meta-Llama model)
 openai.api_key = api_key
+openai.api_base = "https://api.sambanova.ai/v1"
 
 def chatbot():
     print("Chatbot is ready! Type 'exit' to end the conversation.")
@@ -29,6 +38,7 @@ def chatbot():
                 messages=conversation_history,
                 temperature=0.7,  # Controls randomness in responses
                 max_tokens=150,   # Max length of the response
+                top_p=0.1         # You can set top_p as per your preferences
             )
             
             # Get the assistant's response
