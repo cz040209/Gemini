@@ -1,3 +1,4 @@
 azure-ai-inference
 azure-core
 python-dotenv 
+azure
