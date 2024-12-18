@@ -1,5 +1,5 @@
 import openai
-import os
+import streamlit as st
 
 # Retrieve the API key from Streamlit secrets
 api_key = st.secrets["SAMBANOVA"]["API_KEY"]
